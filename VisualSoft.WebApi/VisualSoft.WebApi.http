@@ -1,0 +1,6 @@
+@VisualSoft.WebApi_HostAddress = http://localhost:5202
+
+GET {{VisualSoft.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

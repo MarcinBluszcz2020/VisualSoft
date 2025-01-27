@@ -10,7 +10,7 @@ public class DefaultDocumentDataParser : IDocumentDataParser
 	private const string ItemLinePrefix = "B,";
 	private const string CommentLinePrefix = "C,";
 
-	private const int HeaderValuesCount = 15;
+	private const string DateFormat = "dd-mm-yyyy";
 
 	public Result<Document[]> ParseDocumentData(string[] documentLines)
 	{
@@ -133,12 +133,12 @@ public class DefaultDocumentDataParser : IDocumentDataParser
 				KodBA = lineValues[0],
 				Typ = lineValues[1],
 				NumerDokumentu = long.Parse(lineValues[2]),
-				DataOperacji = DateOnly.ParseExact(lineValues[3], "dd-mm-yyyy", CultureInfo.InvariantCulture),
+				DataOperacji = DateOnly.ParseExact(lineValues[3], DateFormat, CultureInfo.InvariantCulture),
 				NumerDniaDokumentu = long.Parse(lineValues[4]),
 				KodKontrahenta = lineValues[5],
 				NazwaKontrahenta = lineValues[6],
 				NumerDokumentuZewnetrznego = lineValues[7], //must be string,
-				DataDokumentuZewnetrznego = DateOnly.ParseExact(lineValues[8], "dd-mm-yyyy", CultureInfo.InvariantCulture),
+				DataDokumentuZewnetrznego = DateOnly.ParseExact(lineValues[8], DateFormat, CultureInfo.InvariantCulture),
 				Netto = decimal.Parse(lineValues[9], CultureInfo.InvariantCulture),
 				Vat = decimal.Parse(lineValues[10], CultureInfo.InvariantCulture),
 				Brutto = decimal.Parse(lineValues[11], CultureInfo.InvariantCulture),

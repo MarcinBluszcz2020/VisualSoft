@@ -6,14 +6,14 @@ public class DocumentHeader
 	public required string Typ { get; init; }
 
 	public required long NumerDokumentu { get; init; }
-	public required DateTime DataOperacji { get; init; }
+	public required DateOnly DataOperacji { get; init; }
 	public required long NumerDniaDokumentu { get; init; }
 
 	public required string KodKontrahenta { get; init; }
 	public required string NazwaKontrahenta { get; init; }
 
 	public required string NumerDokumentuZewnetrznego { get; init; }
-	public required DateTime DataDokumentuZewnetrznego { get; init; }
+	public required DateOnly DataDokumentuZewnetrznego { get; init; }
 
 	public required decimal Netto { get; init; }
 	public required decimal Vat { get; init; }

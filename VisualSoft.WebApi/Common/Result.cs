@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-using System.Text;
+﻿using System.Text.Json.Serialization;
 
 namespace VisualSoft.WebApi.Common;
 
@@ -243,37 +241,13 @@ public partial class Result
 	/// Returns formatted error message.
 	/// </summary>
 	/// <returns>Error message</returns>
-	public string GetErrorMessage(bool includeFullException = true)
+	public string GetErrorMessage()
 	{
-		var sb = new StringBuilder();
-
-		if (includeFullException && Exception != null)
+		if (Errors is null)
 		{
-			sb.AppendLine("Exception:");
-			sb.AppendLine();
-			sb.AppendLine(Exception.ToString());
-			sb.AppendLine();
+			return string.Empty;
 		}
 
-		if (Errors != null && Errors.Any())
-		{
-			if (Errors.Count() == 1)
-			{
-				sb.AppendLine("Error: ");
-			}
-			else
-			{
-				sb.AppendLine("Errors: ");
-			}
-
-			sb.AppendLine();
-
-			foreach (var error in Errors)
-			{
-				sb.AppendLine(error);
-			}
-		}
-
-		return sb.ToString();
+		return string.Join(';', Errors);
 	}
 }

@@ -1,3 +1,4 @@
+using VisualSoft.WebApi.Authorization;
 using VisualSoft.WebApi.DataProcessing;
 
 namespace VisualSoft.WebApi;

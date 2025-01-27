@@ -76,24 +76,48 @@ public class DefaultDocumentDataParser : IDocumentDataParser
 		}
 
 
+		if (documents.Count == 0)
+		{
+			return Result.Failed<Document[]>("No documents present in passed data");
+		}
+
 		return Result.Successful(documents.ToArray());
 	}
 
 	private Result<DocumentItem> ParseItemLine(string line, int lineIndex)
 	{
-		return Result.Successful(new DocumentItem
+		try
 		{
+			var lineValues = GetLineValues(line);
 
-		});
+			var documentItem = new DocumentItem
+			{
+				KodProduktu = lineValues[0],
+				NazwaProduktu = lineValues[1],
+				Ilosc = decimal.Parse(lineValues[2], CultureInfo.InvariantCulture),
+				CenaNetto = decimal.Parse(lineValues[3], CultureInfo.InvariantCulture),
+				WartoscNetto = decimal.Parse(lineValues[4], CultureInfo.InvariantCulture),
+				Vat = decimal.Parse(lineValues[5], CultureInfo.InvariantCulture),
+				IloscPrzed = decimal.Parse(lineValues[6], CultureInfo.InvariantCulture),
+				AvgPrzed = decimal.Parse(lineValues[7], CultureInfo.InvariantCulture),
+				IloscPo = decimal.Parse(lineValues[8], CultureInfo.InvariantCulture),
+				AvgPo = decimal.Parse(lineValues[9], CultureInfo.InvariantCulture),
+				Grupa = lineValues[10]
+			};
+
+			return Result.Successful(documentItem);
+		}
+		catch
+		{
+			return Result.Failed<DocumentItem>($"Error during parsing document item line (lineIndex: {lineIndex})");
+		}
 	}
 
 	private Result<DocumentHeader> ParseHeader(string line, int lineIndex)
 	{
 		try
 		{
-			var lineValues = line.Split(',', options: StringSplitOptions.TrimEntries).ToList();
-
-			RemovePrefixFromLineValues(lineValues);
+			var lineValues = GetLineValues(line);
 
 			var documentHeader = new DocumentHeader
 			{
@@ -127,9 +151,9 @@ public class DefaultDocumentDataParser : IDocumentDataParser
 		return Result.Failed<Document[]>($"Invalid data format, unknow line (lineIndex: {lineIndex})");
 	}
 
-	private void RemovePrefixFromLineValues(List<string> lineValues)
+	private string[] GetLineValues(string line)
 	{
-		lineValues.RemoveAt(0);
+		return line.Split(',', options: StringSplitOptions.TrimEntries).Skip(1).ToArray(); //skip 1 value - line prefix
 	}
 
 	private DocumentLineType GetLineType(string line)

@@ -1,3 +1,5 @@
+using VisualSoft.WebApi.DataProcessing;
+
 namespace VisualSoft.WebApi;
 
 public class Program
@@ -11,6 +13,7 @@ public class Program
 		builder.Services.AddControllers();
 
 		builder.Services.AddSingleton<AuthorizationService>();
+		builder.Services.AddSingleton<IDocumentDataParser, DefaultDocumentDataParser>();
 
 		var app = builder.Build();
 

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using VisualSoft.WebApi.DataProcessing;
 
 namespace VisualSoft.WebApi.Controllers;
 
@@ -7,10 +8,14 @@ namespace VisualSoft.WebApi.Controllers;
 public class TestController : ControllerBase
 {
 	private readonly AuthorizationService _authorizationService;
+	private readonly IDocumentDataParser _documentDataParser;
 
-	public TestController(AuthorizationService authorizationService)
+	public TestController(
+		AuthorizationService authorizationService,
+		IDocumentDataParser documentDataParser)
 	{
 		_authorizationService = authorizationService;
+		_documentDataParser = documentDataParser;
 	}
 
 	[HttpPost("test/{x}")]
@@ -25,6 +30,7 @@ public class TestController : ControllerBase
 
 		var fileLines = file.GetTextLines();
 
+		var documentParseResult = _documentDataParser.ParseDocumentData(fileLines);
 
 		return Ok();
 	}

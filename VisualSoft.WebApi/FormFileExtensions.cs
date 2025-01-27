@@ -2,7 +2,7 @@
 
 public static class FormFileExtensions
 {
-	public static List<string> GetTextLines(this IFormFile file)
+	public static string[] GetTextLines(this IFormFile file)
 	{
 		var fileLines = new List<string>();
 
@@ -26,6 +26,6 @@ public static class FormFileExtensions
 			}
 		}
 
-		return fileLines;
+		return fileLines.ToArray();
 	}
 }

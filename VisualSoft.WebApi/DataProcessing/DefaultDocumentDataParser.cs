@@ -81,6 +81,15 @@ public class DefaultDocumentDataParser : IDocumentDataParser
 			return Result.Failed<Document[]>("No documents present in passed data");
 		}
 
+		var emptyDocuments = documents.Where(x => x.Items.Length == 0);
+
+		if (emptyDocuments.Any())
+		{
+			var emptyDocumentsNumbers = string.Join( ',',emptyDocuments.Select(x => x.Header.NumerDokumentu));
+
+			return Result.Failed<Document[]>($"Some documents are empty (documentIds: {emptyDocumentsNumbers})");
+		}
+
 		return Result.Successful(documents.ToArray());
 	}
 
@@ -128,7 +137,7 @@ public class DefaultDocumentDataParser : IDocumentDataParser
 				NumerDniaDokumentu = long.Parse(lineValues[4]),
 				KodKontrahenta = lineValues[5],
 				NazwaKontrahenta = lineValues[6],
-				NumerDokumentuZewnetrznego = lineValues[7],//must be string,
+				NumerDokumentuZewnetrznego = lineValues[7], //must be string,
 				DataDokumentuZewnetrznego = DateOnly.ParseExact(lineValues[8], "dd-mm-yyyy", CultureInfo.InvariantCulture),
 				Netto = decimal.Parse(lineValues[9], CultureInfo.InvariantCulture),
 				Vat = decimal.Parse(lineValues[10], CultureInfo.InvariantCulture),
